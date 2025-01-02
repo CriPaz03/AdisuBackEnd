@@ -1,15 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from mensa.views import MealViewSet, BookingViewSet
+from mensa.views import MealViewSet, BookingViewSet, CanteenSerializer
 from django.contrib import admin
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 router = DefaultRouter()
 router.register('meals', MealViewSet)
 router.register('bookings', BookingViewSet)
+router.register('canteen', CanteenSerializer)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,6 +1,10 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from .models import Meal, Booking
-from .serializers import MealSerializer, BookingSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from .models import Meal, Booking, Canteen
+from .serializers import MealSerializer, BookingSerializer, CanteenSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class MealViewSet(ModelViewSet):
@@ -12,4 +16,10 @@ class BookingViewSet(ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     permission_classes = [IsAuthenticated]
+
+class CanteenSerializer(ModelViewSet):
+    queryset = Canteen.objects.all()
+    serializer_class = CanteenSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 

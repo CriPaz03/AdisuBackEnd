@@ -38,7 +38,7 @@ class Booking(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.IntegerField()
     booking_date = models.DateTimeField(default=datetime.now)
     collection_date = models.DateTimeField(default=datetime.now, verbose_name="Data ritiro")
     status = models.CharField(choices=StatusBooking.choices, max_length=255, verbose_name="Stato", default=StatusBooking.created)
@@ -49,5 +49,5 @@ class Canteen(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nome")
     address = models.CharField(max_length=255, verbose_name="Indirizzo")
     city = models.CharField(max_length=255, verbose_name="Città")
-    postal_code = models.IntegerField(verbose_name="Postal", validators=[MinValueValidator(1), MaxValueValidator(5)])
+    postal_code = models.IntegerField(verbose_name="Postal")
     province = models.CharField(max_length=255, verbose_name="Provincia")
