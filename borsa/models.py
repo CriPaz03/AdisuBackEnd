@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Academic_Year(models.Model):
+class AcademicYear(models.Model):
     academicYear = models.IntegerField(primary_key=True, verbose_name="Anno Accademico")
 
     def __str__(self):
@@ -13,7 +13,7 @@ class IseeRange(models.Model):
     nrRange = models.DecimalField(max_digits=6, decimal_places=0, verbose_name="Fascia ISEE")
     iseeMin = models.DecimalField(max_digits=6, decimal_places=0, verbose_name="Minimo ISEE")
     iseeMax = models.DecimalField(max_digits=6, decimal_places=0, verbose_name="Massimo ISEE")
-    academicYear = models.ForeignKey(AnnoAccademico, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
+    academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
 
     class Meta:
         unique_together = (("academicYear", "nrRange"),)
@@ -48,7 +48,7 @@ class Request(models.Model):
         secondYearOffCourse = "secondYearOffCourse", "Secondo Anno fuori corso"
 
     physicalCondition = models.TextField(verbose_name="Condizioni fisiche")
-    academicYear = models.ForeignKey(AnnoAccademico, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
+    academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
     studentNumber = models.ForeignKey(User, on_delete=models.CASCADE)
     nrRange = models.ForeignKey(IseeRange, on_delete=models.CASCADE, verbose_name="Fascia ISEE", primary_key=False)
 
