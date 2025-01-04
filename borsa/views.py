@@ -12,14 +12,14 @@ from .serializers import AcademicYearSerializer, IseeRangeSerializer, Scholarshi
 from rest_framework.permissions import IsAuthenticated
 
 class AcademicYearViewSet(ModelViewSet):
-    queryset = AcademicYear.objects.all()
+    queryset = AcademicYear.objects.filter(isee_range__isnull = False).distinct()
     serializer_class = AcademicYearSerializer
     permission_classes = (AllowAny,)
 
     @action(detail=False, methods=['get'], url_path='get-academic-years')
     def get_academic_years(self, request):
         # Recupera tutti gli anni accademici
-        years = AcademicYear.objects.values_list('academicYear', flat=True)
+        years = AcademicYear.objects.filter(isee_range__isnull=False).distinct()
 
         # Restituisci una risposta con i dati serializzati
         return Response(list(years), status=200)
@@ -45,15 +45,6 @@ class IseeRangeViewSet(ModelViewSet):
 
         # Serializza i risultati
         serializer = self.get_serializer(filtered_ranges, many=True)
-        return Response(serializer.data, status=200)
-
-
-    @action(detail=False, methods=['get'], url_path='get-all-isee-ranges')
-    def get_isee_range(self, request):
-        ranges = self.queryset.all()
-
-        # Serializza i risultati
-        serializer = self.get_serializer(ranges, many=True)
         return Response(serializer.data, status=200)
 
 class ScholarshipViewSet(ModelViewSet):

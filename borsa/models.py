@@ -11,7 +11,7 @@ class IseeRange(models.Model):
     nrRange = models.DecimalField(primary_key=True, max_digits=6, decimal_places=0, verbose_name="Fascia ISEE")
     iseeMin = models.DecimalField(max_digits=6, decimal_places=0, verbose_name="Minimo ISEE")
     iseeMax = models.DecimalField(max_digits=6, decimal_places=0, verbose_name="Massimo ISEE")
-    academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
+    academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False, related_name="isee_range")
 
     class Meta:
         unique_together = (("academicYear", "nrRange"),)
