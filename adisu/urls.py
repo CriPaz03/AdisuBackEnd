@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from mensa.views import MealViewSet, BookingViewSet, CanteenSerializer
+from mensa.views import MealViewSet, BookingViewSet, CanteenSerializer, DailyMealViewSet
 from borsa.views import AcademicYearViewSet, IseeRangeViewSet, ScholarshipViewSet, RequestViewSet
 from django.contrib import admin
 
 router = DefaultRouter()
 router.register('meals', MealViewSet)
+router.register('daily_meals', DailyMealViewSet)
 router.register('bookings', BookingViewSet)
 router.register('canteen', CanteenSerializer)
 router.register('academicyear', AcademicYearViewSet)

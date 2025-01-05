@@ -18,11 +18,19 @@ class Meal(models.Model):
     def __str__(self):
         return f"{self.name} - {self.price} ({self.get_type_display()})"
 
+class Canteen(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Nome")
+    address = models.CharField(max_length=255, verbose_name="Indirizzo")
+    city = models.CharField(max_length=255, verbose_name="Città")
+    postal_code = models.IntegerField(verbose_name="Postal")
+    province = models.CharField(max_length=255, verbose_name="Provincia")
+
 
 class DailyMeal(models.Model):
     available = models.BooleanField(default=True, verbose_name="Pranzo disponibile")
     meal = models.ForeignKey("Meal", on_delete=models.CASCADE, verbose_name="Pranzo")
     date = models.DateField(auto_now_add=True, verbose_name="Data")
+    canteen = models.ForeignKey("Canteen", on_delete=models.CASCADE, verbose_name="Indirizzo", null=True, blank=True)
 
     @property
     def get_price_meal(self):
@@ -45,9 +53,4 @@ class Booking(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
 
 
-class Canteen(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Nome")
-    address = models.CharField(max_length=255, verbose_name="Indirizzo")
-    city = models.CharField(max_length=255, verbose_name="Città")
-    postal_code = models.IntegerField(verbose_name="Postal")
-    province = models.CharField(max_length=255, verbose_name="Provincia")
+
