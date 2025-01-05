@@ -13,6 +13,8 @@ class DailyMealSerializer(serializers.ModelSerializer):
     description = serializers.CharField(source='meal.description', read_only=True)
     price = serializers.CharField(source='meal.price', read_only=True)
     name = serializers.CharField(source='meal.name', read_only=True)
+    crustaceans = serializers.CharField(source='meal.crustaceans', read_only=True)
+    gluten=serializers.CharField(source='meal.gluten', read_only=True)
 
     class Meta:
         model = DailyMeal

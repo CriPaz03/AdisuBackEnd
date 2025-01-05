@@ -14,6 +14,10 @@ class Meal(models.Model):
     description = models.TextField(verbose_name="Descrizione")
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
     type = models.CharField(choices=TypeMeal.choices, max_length=255, verbose_name="Tipo di pranzo", null=True, blank=True)
+    gluten = models.BooleanField(default=False, verbose_name="Glutine")
+    crustaceans = models.BooleanField(default=False, verbose_name="Crostacei")
+
+
 
     def __str__(self):
         return f"{self.name} - {self.price} ({self.get_type_display()})"
