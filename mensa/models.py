@@ -3,6 +3,12 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 
+class Allergen(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Nome Allergene", unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Meal(models.Model):
     class TypeMeal(models.TextChoices):
         first = "first", "Primo"
@@ -14,10 +20,7 @@ class Meal(models.Model):
     description = models.TextField(verbose_name="Descrizione")
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
     type = models.CharField(choices=TypeMeal.choices, max_length=255, verbose_name="Tipo di pranzo", null=True, blank=True)
-    gluten = models.BooleanField(default=False, verbose_name="Glutine")
-    crustaceans = models.BooleanField(default=False, verbose_name="Crostacei")
-
-
+    allergens = models.ManyToManyField(Allergen, verbose_name="Allergeni", blank=True)
 
     def __str__(self):
         return f"{self.name} - {self.price} ({self.get_type_display()})"
@@ -26,15 +29,20 @@ class Canteen(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nome")
     address = models.CharField(max_length=255, verbose_name="Indirizzo")
     city = models.CharField(max_length=255, verbose_name="Città")
-    postal_code = models.IntegerField(verbose_name="Postal")
+    postal_code = models.IntegerField(verbose_name="Cap")
     province = models.CharField(max_length=255, verbose_name="Provincia")
 
+    def __str__(self):
+        return f"{self.name} {self.address} {self.city}"
 
 class DailyMeal(models.Model):
     available = models.BooleanField(default=True, verbose_name="Pranzo disponibile")
-    meal = models.ForeignKey("Meal", on_delete=models.CASCADE, verbose_name="Pranzo")
+    meal = models.ForeignKey("Meal", on_delete=models.CASCADE, verbose_name="Pasto")
     date = models.DateField(auto_now_add=True, verbose_name="Data")
-    canteen = models.ForeignKey("Canteen", on_delete=models.CASCADE, verbose_name="Indirizzo", null=True, blank=True)
+    canteen = models.ForeignKey("Canteen", on_delete=models.CASCADE, verbose_name="Mensa", null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.date} - {self.meal} - {self.canteen}"
 
     @property
     def get_price_meal(self):
