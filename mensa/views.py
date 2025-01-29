@@ -1,5 +1,5 @@
 from django.db.models import F
-from rest_framework import status
+from rest_framework import status, request
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -25,7 +25,6 @@ class DailyMealViewSet(ModelViewSet):
     def get_meals_by_id(self, request, pk=None):
         meals = self.queryset.filter(canteen_id=pk)
         serialized_meals = self.serializer_class(meals, many=True)
-        print(serialized_meals.data)
         return Response(serialized_meals.data)
 
     @action(methods=['POST'], detail=True)
@@ -46,9 +45,17 @@ class BookingViewSet(ModelViewSet):
     def get_created(self, request, pk=None):
         return Response({'booking': Booking.objects.filter(status=Booking.StatusBooking.created)})
 
-class CanteenSerializer(ModelViewSet):
+class CanteenViewSet(ModelViewSet):
     queryset = Canteen.objects.all()
     serializer_class = CanteenSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+class BookingViewSet(ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        return Booking.objects.filter(user=self.request.user)

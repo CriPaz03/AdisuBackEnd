@@ -57,12 +57,24 @@ class Booking(models.Model):
         complete = "finished", "Completo"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
     booking_date = models.DateTimeField(default=datetime.now)
     collection_date = models.DateTimeField(default=datetime.now, verbose_name="Data ritiro")
     status = models.CharField(choices=StatusBooking.choices, max_length=255, verbose_name="Stato", default=StatusBooking.created)
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
+    total_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Prezzo Totale", null=True, blank=True)
 
+    def update_total_price(self):
+        total = sum(item.price for item in self.items.all())
+        self.total_price = total
+        self.save()
 
+class BookingItem(models.Model):
+    booking = models.ForeignKey(Booking, related_name='items', on_delete=models.CASCADE)
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.price and self.meal:
+            self.price = self.meal.price * self.quantity
+        super().save(*args, **kwargs)
