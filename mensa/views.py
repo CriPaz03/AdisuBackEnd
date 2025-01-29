@@ -27,12 +27,12 @@ class DailyMealViewSet(ModelViewSet):
         serialized_meals = self.serializer_class(meals, many=True)
         return Response(serialized_meals.data)
 
-    @action(methods=['POST'], detail=True)
+    @action(methods=['POST'], detail=False)
     def check_meal_available(self, request):
         ids = request.data['ids']
         daily_meals = DailyMeal.objects.filter(id__in=ids, available=False)
         serialized_daily_meals = self.serializer_class(daily_meals, many=True)
-        return Response(serialized_daily_meals)
+        return Response(serialized_daily_meals.data)
 
 
 class BookingViewSet(ModelViewSet):

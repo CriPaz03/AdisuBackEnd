@@ -18,20 +18,31 @@ class BookingItemSerializer(serializers.ModelSerializer):
         model = BookingItem
         fields = ['id', 'meal', 'quantity', 'price']
 
+class CanteenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Canteen
+        fields = '__all__'
+
 
 class BookingSerializer(serializers.ModelSerializer):
     items = BookingItemSerializer(many=True, read_only=False)
+    canteen = CanteenSerializer(read_only=False, required=False)
+    canteen_id = serializers.IntegerField(write_only=True, required=False)
+
 
     class Meta:
         model = Booking
-        fields = ['id', 'booking_date', 'collection_date', 'status', 'total_price', 'items']
+        fields = ['id', 'booking_date', 'collection_date', 'status', 'total_price', 'items', 'canteen', 'canteen_id']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
-        booking = Booking.objects.create(user=self.context['request'].user, **validated_data)
+        canteen_id = validated_data.pop('canteen_id')
+        booking = Booking.objects.create(user=self.context['request'].user, canteen=Canteen.objects.get(id=canteen_id), **validated_data)
 
         for item_data in items_data:
-            BookingItem.objects.create(booking=booking, **item_data)
+            daily_meal = DailyMeal.objects.filter(canteen_id=canteen_id, meal=item_data["meal"], available=True)
+            if daily_meal.exists():
+                BookingItem.objects.create(booking=booking, **item_data)
 
         booking.update_total_price()
         return booking

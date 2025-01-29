@@ -62,6 +62,7 @@ class Booking(models.Model):
     status = models.CharField(choices=StatusBooking.choices, max_length=255, verbose_name="Stato", default=StatusBooking.created)
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Prezzo", null=True, blank=True)
     total_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Prezzo Totale", null=True, blank=True)
+    canteen = models.ForeignKey("Canteen", on_delete=models.CASCADE, verbose_name="Mensa", null=True, blank=True)
 
     def update_total_price(self):
         total = sum(item.price for item in self.items.all())
