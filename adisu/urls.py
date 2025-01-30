@@ -18,10 +18,8 @@ router.register('scholarship', ScholarshipViewSet)
 router.register('request', RequestViewSet)
 
 urlpatterns = [
-                  path('', TemplateView.as_view(template_name='index.html'), name='index'),
-                  path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
-                  path('registrazione/', TemplateView.as_view(template_name='registrazione.html'), name='registrazione'),
                   path('admin/', admin.site.urls),
                   path('api/', include(router.urls)),
-                  path("api/", include('user.urls')),
+                  path('api/', include('user.urls')),
+                  path('gestionale/', include('gestionale.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

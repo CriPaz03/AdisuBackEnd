@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mensa',
     'borsa',
+    'gestionale',
     'user',
     'corsheaders',
     'rest_framework',
@@ -159,5 +160,9 @@ STATICFILES_DIRS = [
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+LOGIN_REDIRECT_URL = "gestionale/"
+LOGIN_URL='accounts/login/'
+LOGIN_REDIRECT_URL='gestionale/accounts/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

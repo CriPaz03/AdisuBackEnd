@@ -35,7 +35,7 @@
                         <span class="hide-menu">Home</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                        <a class="sidebar-link" href="{% url 'index' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -47,7 +47,7 @@
                         <span class="hide-menu">UI COMPONENTS</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{% url 'test' %}" aria-expanded="false">
+                        <a class="sidebar-link" href="" aria-expanded="false">
                 <span>
                   <i class="ti ti-article"></i>
                 </span>
@@ -91,7 +91,7 @@
                         <span class="hide-menu">AUTH</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{% url 'login' %}" aria-expanded="false">
+                        <a class="sidebar-link" href="" aria-expanded="false">
                 <span>
                   <i class="ti ti-login"></i>
                 </span>
@@ -99,14 +99,13 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{% url 'registrazione' %}" aria-expanded="false">
+                        <a class="sidebar-link" href="" aria-expanded="false">
                 <span>
                   <i class="ti ti-user-plus"></i>
                 </span>
                             <span class="hide-menu">Register</span>
                         </a>
                     </li>
-
 
 
                 </ul>
@@ -183,7 +182,7 @@
         </header>
         <!--  Header End -->
         <div class="container-fluid">
-        {% block content %}
+            {% block content %}
             {% endblock %}
 
         </div>
