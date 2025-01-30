@@ -1,7 +1,3 @@
-from django.db.models import F
-from rest_framework import status, request
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Meal, Booking, Canteen, DailyMeal
@@ -23,7 +19,7 @@ class DailyMealViewSet(ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def get_meals_by_id(self, request, pk=None):
-        meals = self.queryset.filter(canteen_id=pk)
+        meals = self.queryset.filter(canteen_id=pk, available=True)
         serialized_meals = self.serializer_class(meals, many=True)
         return Response(serialized_meals.data)
 

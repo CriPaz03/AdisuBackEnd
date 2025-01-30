@@ -3,6 +3,9 @@ from rest_framework.routers import DefaultRouter
 from mensa.views import MealViewSet, BookingViewSet, CanteenViewSet, DailyMealViewSet
 from borsa.views import AcademicYearViewSet, IseeRangeViewSet, ScholarshipViewSet, RequestViewSet
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.generic.base import TemplateView
 
 router = DefaultRouter()
 router.register('meals', MealViewSet)
@@ -15,7 +18,8 @@ router.register('scholarship', ScholarshipViewSet)
 router.register('request', RequestViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path("api/", include('user.urls')),
-]
+                  path('', TemplateView.as_view(template_name='base.html'), name='home'),
+                  path('admin/', admin.site.urls),
+                  path('api/', include(router.urls)),
+                  path("api/", include('user.urls')),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
