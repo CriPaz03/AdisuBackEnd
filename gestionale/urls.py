@@ -5,5 +5,6 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', login_required(TemplateView.as_view(template_name='index.html')), name='index'),
+    path('cuoco/', login_required(TemplateView.as_view(template_name='cuoco.html')), name='cuoco'),
     path("accounts/", include("django.contrib.auth.urls")),
 ]
