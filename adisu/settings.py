@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_tables2',
     'mensa',
     'borsa',
     'gestionale',
@@ -89,6 +90,13 @@ SIMPLE_JWT = {
 
 
 ROOT_URLCONF = 'adisu.urls'
+
+DJANGO_TABLES2_TABLE_ATTRS = {
+    'class': 'table text-nowrap mb-0 align-middle',
+    'thead': {
+        'class': 'text-dark fs-4',
+    },
+}
 
 TEMPLATES = [
     {

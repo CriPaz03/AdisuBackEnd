@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>ADISU | {% block title %} {% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}"/>
     <link rel="stylesheet" href="{% static 'assets/css/styles.min.css' %}"/>
 </head>
@@ -57,19 +57,19 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                        <a class="sidebar-link" href="{% url 'meal' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-alert-circle"></i>
                 </span>
-                            <span class="hide-menu">Alerts</span>
+                            <span class="hide-menu">Pasto</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
+                        <a class="sidebar-link" href="{% url 'booking' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
                 </span>
-                            <span class="hide-menu">Card</span>
+                            <span class="hide-menu">Ordini</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
