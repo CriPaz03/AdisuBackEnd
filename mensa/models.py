@@ -25,6 +25,7 @@ class Meal(models.Model):
     def __str__(self):
         return f"{self.name} - {self.price} ({self.get_type_display()})"
 
+
 class Canteen(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nome")
     address = models.CharField(max_length=255, verbose_name="Indirizzo")
@@ -35,6 +36,17 @@ class Canteen(models.Model):
     def __str__(self):
         return f"{self.name} {self.address} {self.city}"
 
+    @property
+    def get_average_rating(self):
+        ratings = Rating.objects.filter(canteen=self)
+        count_ratings = ratings.count()
+        if count_ratings > 0:
+            nominatore = 0
+            for rating in ratings:
+                nominatore += rating.scale
+            nominatore = nominatore if nominatore > 0 else 0
+            return round(nominatore / count_ratings, 1)
+        return 0
 class DailyMeal(models.Model):
     available = models.BooleanField(default=True, verbose_name="Pranzo disponibile")
     meal = models.ForeignKey("Meal", on_delete=models.CASCADE, verbose_name="Pasto")
@@ -49,10 +61,24 @@ class DailyMeal(models.Model):
         return self.meal.price
 
 
+class Rating(models.Model):
+    class ScaleType(models.IntegerChoices):
+        one = 1, "Uno"
+        two = 2, "Due"
+        three = 3, "Tre"
+        four = 4, "Quattro"
+        five = 5, "Cinque"
+
+    scale = models.IntegerField(choices=ScaleType.choices, default=ScaleType.one)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Utente", null=True, blank=True)
+    meal = models.ForeignKey("Meal", on_delete=models.CASCADE, verbose_name="Pasto")
+    canteen = models.ForeignKey("Canteen", on_delete=models.CASCADE, verbose_name="Mensa")
+
+
 class Booking(models.Model):
     class StatusBooking(models.TextChoices):
         created = "created", "Creato"
-        confirmed = "confirmed", "Confermanto"
+        confirmed = "confirmed", ""
         in_progress = "in_progress", "In corso"
         complete = "finished", "Completo"
 

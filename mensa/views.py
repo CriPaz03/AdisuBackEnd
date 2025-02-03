@@ -1,7 +1,8 @@
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .models import Meal, Booking, Canteen, DailyMeal
-from .serializers import MealSerializer, BookingSerializer, CanteenSerializer, DailyMealSerializer
+from .models import Meal, Booking, Canteen, DailyMeal, Rating
+from .serializers import MealSerializer, BookingSerializer, CanteenSerializer, DailyMealSerializer, RatingSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -55,3 +56,19 @@ class BookingViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Booking.objects.filter(user=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.status != Booking.StatusBooking.created:
+            return Response({'error': 'Non puoi eliminare questo ordine'}, status=status.HTTP_400_BAD_REQUEST)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class RatingViewSet(ModelViewSet):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        return Rating.objects.filter(user=self.request.user)
