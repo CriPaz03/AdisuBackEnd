@@ -110,5 +110,9 @@ class RatingSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         canteen_id = validated_data.pop("canteen")["id"]
         meal_id = validated_data.pop("meal")["id"]
-        rating = Rating.objects.create(user=user, canteen_id=canteen_id, meal_id=meal_id, **validated_data)
-        return rating
+        rating = Rating.objects.filter(user=user, canteen_id=canteen_id, meal_id=meal_id)
+        if rating.exists():
+            rating.update(**validated_data)
+        else:
+            rating = Rating.objects.create(user=user, canteen_id=canteen_id, meal_id=meal_id, **validated_data)
+        return rating.last()
