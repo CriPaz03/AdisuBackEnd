@@ -8,10 +8,6 @@ from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 
 router = DefaultRouter()
-router.register('meals', MealViewSet)
-router.register('daily_meals', DailyMealViewSet)
-router.register('canteen', CanteenViewSet)
-router.register('booking', BookingViewSet)
 router.register('academicyear', AcademicYearViewSet)
 router.register('iseerange', IseeRangeViewSet)
 router.register('scholarship', ScholarshipViewSet)
@@ -21,5 +17,6 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/', include(router.urls)),
                   path('api/', include('user.urls')),
+                  path('api/', include('mensa.urls')),
                   path('gestionale/', include('gestionale.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
