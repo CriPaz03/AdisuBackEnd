@@ -56,5 +56,20 @@ class RequestViewSet(ModelViewSet):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = ([JWTAuthentication])
+
+    @action(detail=False, methods=['get'], url_path='get-request-by-user')
+    def get_request_by_user(self, request):
+        nr_utente = request.query_params.get('nrUtente')  # Ottieni il parametro dall'URL
+
+        if not nr_utente:
+            return Response({"error": "nrUtente is required"}, status=400)
+
+        # Filtra le richieste in base al numero utente
+        user_requests = Request.objects.filter(studentNumber__username=nr_utente)
+
+        # Serializza i dati
+        serializer = RequestSerializer(user_requests, many=True)
+
+        return Response(serializer.data, status=200)
 

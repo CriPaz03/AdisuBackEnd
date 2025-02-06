@@ -36,7 +36,7 @@ class Scholarship(models.Model):
     nrRange = models.ForeignKey(IseeRange, on_delete=models.CASCADE, verbose_name="Fascia ISEE", primary_key=False)
 
     class Meta:
-        unique_together = (("nrRange", "scholarshipName"),)
+        unique_together = (("scholarshipName", "nrRange"),)
 
     def __str__(self):
         return f"{self.scholarshipName}"
@@ -59,7 +59,6 @@ class Request(models.Model):
     physicalCondition = models.TextField(verbose_name="Condizioni fisiche")
     academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
     studentNumber = models.ForeignKey(User, on_delete=models.CASCADE)
-    nrRange = models.ForeignKey(IseeRange, on_delete=models.CASCADE, verbose_name="Fascia ISEE", primary_key=False)
 
     class Meta:
-        unique_together = (("nrRange", "academicYear", "studentNumber"),)
+        unique_together = (("academicYear", "studentNumber"),)
