@@ -47,6 +47,24 @@ class IseeRangeViewSet(ModelViewSet):
         serializer = self.get_serializer(filtered_ranges, many=True)
         return Response(serializer.data, status=200)
 
+    @action(detail=False, methods=['get'], url_path='get-isee-range-by-id')
+    def get_isee_range_by_id(self, request):
+        # Recupera l'academicYear dai parametri della query string
+        nr = request.query_params.get('nr', None)
+
+        if nr is None:
+            return Response(
+                {"error": "Parametro 'academicYear' mancante."},
+                status=400
+            )
+
+        # Filtra i record per l'anno accademico specificato
+        filtered_ranges = self.queryset.filter(nrRange=nr)
+
+        # Serializza i risultati
+        serializer = self.get_serializer(filtered_ranges, many=True)
+        return Response(serializer.data, status=200)
+
 class ScholarshipViewSet(ModelViewSet):
     queryset = Scholarship.objects.all()
     serializer_class = ScholarshipSerializer
