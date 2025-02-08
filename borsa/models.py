@@ -42,23 +42,13 @@ class Scholarship(models.Model):
         return f"{self.scholarshipName}"
 
 class Request(models.Model):
-    class StudentType(models.TextChoices):
-        onSite = "onSite", "In Sede"
-        offSite = "offSite", "Fuorisede"
-        commuter = "commuter", "Pendolare"
-
-    class YearType(models.TextChoices):
-        firstYear = "firstYear", "Primo anno"
-        secondYear = "secondYear", "Secondo anno"
-        thirdYear = "thirdYear", "Terzo anno"
-        fourthYer = "fourthYer", "Quarto anno laurea ciclo unico"
-        fifthYear = "fifthYear", "Quinto anno laurea ciclo unico"
-        firstYearOffCourse = "firstYearOffCourse", "Primo Anno fuori corso"
-        secondYearOffCourse = "secondYearOffCourse", "Secondo Anno fuori corso"
-
-    physicalCondition = models.TextField(verbose_name="Condizioni fisiche")
+    physicalCondition = models.BooleanField(verbose_name="Condizioni fisiche")
+    studentType = models.TextField(verbose_name="Tipo studente")
+    yearType = models.TextField(verbose_name="Anno di studio")
+    nrStudent = models.TextField(verbose_name="Matricola")
+    studentName = models.TextField(verbose_name="Studente")
     academicYear = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, verbose_name="Anno Accademico", primary_key=False)
-    studentNumber = models.ForeignKey(User, on_delete=models.CASCADE)
+    nrRange = models.ForeignKey(IseeRange, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("academicYear", "studentNumber"),)
+        unique_together = (("academicYear", "studentName"),)

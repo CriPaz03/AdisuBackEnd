@@ -17,7 +17,7 @@ class IseeRangeAdmin(admin.ModelAdmin):
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-    fields = ('StudentType', 'YearType', 'physicalCondition', 'academicYear', 'studentNumber', 'nrRange')  # Mostra i campi, incluso il readonly
+    fields = ('studentType', 'yearType', 'physicalCondition', 'academicYear', 'studentName', 'nrRange', 'nrStudent')  # Mostra i campi, incluso il readonly
 
 @admin.register(Scholarship)
 class ScholarshipAdmin(admin.ModelAdmin):

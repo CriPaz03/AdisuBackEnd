@@ -84,10 +84,19 @@ class RequestViewSet(ModelViewSet):
             return Response({"error": "nrUtente is required"}, status=400)
 
         # Filtra le richieste in base al numero utente
-        user_requests = Request.objects.filter(studentNumber__username=nr_utente)
-
+        user_requests = Request.objects.filter(studentName=nr_utente)
         # Serializza i dati
         serializer = RequestSerializer(user_requests, many=True)
 
         return Response(serializer.data, status=200)
+
+    @action(detail=False, methods=['post'], url_path='post-request-by-user')
+    def post_request_by_user(self, request):
+        serializer = RequestSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
