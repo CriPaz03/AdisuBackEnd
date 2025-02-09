@@ -1,5 +1,5 @@
 from django.contrib import admin
-from borsa.models import AcademicYear, IseeRange, Request, Scholarship
+from borsa.models import AcademicYear, IseeRange, Request
 
 @admin.register(AcademicYear)
 class AcademicYearAdmin(admin.ModelAdmin):
@@ -19,8 +19,5 @@ class IseeRangeAdmin(admin.ModelAdmin):
 class RequestAdmin(admin.ModelAdmin):
     fields = ('studentType', 'yearType', 'physicalCondition', 'academicYear', 'studentName', 'nrRange', 'nrStudent')  # Mostra i campi, incluso il readonly
 
-@admin.register(Scholarship)
-class ScholarshipAdmin(admin.ModelAdmin):
-    fields = ('scholarshipName', 'nrRange')  # Mostra i campi, incluso il readonly
 
 

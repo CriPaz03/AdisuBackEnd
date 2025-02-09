@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from mensa.views import MealViewSet, BookingViewSet, CanteenViewSet, DailyMealViewSet
-from borsa.views import AcademicYearViewSet, IseeRangeViewSet, ScholarshipViewSet, RequestViewSet
+from borsa.views import AcademicYearViewSet, IseeRangeViewSet, RequestViewSet
 from django.contrib import admin
 
 router = DefaultRouter()
@@ -11,7 +11,6 @@ router.register('canteen', CanteenViewSet)
 router.register('booking', BookingViewSet)
 router.register('academicyear', AcademicYearViewSet)
 router.register('iseerange', IseeRangeViewSet)
-router.register('scholarship', ScholarshipViewSet)
 router.register('request', RequestViewSet)
 
 urlpatterns = [

@@ -31,16 +31,6 @@ class IseeRange(models.Model):
         super().save(*args, **kwargs)
 
 
-class Scholarship(models.Model):
-    scholarshipName = models.CharField(max_length=50, verbose_name="Nome Borsa di Studio")
-    nrRange = models.ForeignKey(IseeRange, on_delete=models.CASCADE, verbose_name="Fascia ISEE", primary_key=False)
-
-    class Meta:
-        unique_together = (("scholarshipName", "nrRange"),)
-
-    def __str__(self):
-        return f"{self.scholarshipName}"
-
 class Request(models.Model):
     physicalCondition = models.BooleanField(verbose_name="Condizioni fisiche")
     studentType = models.TextField(verbose_name="Tipo studente")

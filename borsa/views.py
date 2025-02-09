@@ -7,8 +7,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny
 
-from .models import AcademicYear, IseeRange, Scholarship,Request
-from .serializers import AcademicYearSerializer, IseeRangeSerializer, ScholarshipSerializer, RequestSerializer
+from .models import AcademicYear, IseeRange, Request
+from .serializers import AcademicYearSerializer, IseeRangeSerializer, RequestSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class AcademicYearViewSet(ModelViewSet):
@@ -64,11 +64,6 @@ class IseeRangeViewSet(ModelViewSet):
         # Serializza i risultati
         serializer = self.get_serializer(filtered_ranges, many=True)
         return Response(serializer.data, status=200)
-
-class ScholarshipViewSet(ModelViewSet):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    permission_classes = (AllowAny,)
 
 class RequestViewSet(ModelViewSet):
     queryset = Request.objects.all()
