@@ -2,6 +2,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, status
+from django.shortcuts import get_object_or_404
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -95,3 +96,15 @@ class RequestViewSet(ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['post'], url_path='delete-request')
+    def delete_request(self, request):
+        nr_student = request.data.get('nrStudent')
+
+        if not nr_student:
+            return Response({"error": "nrStudent is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        request_instance = get_object_or_404(Request, nrStudent=nr_student)
+
+        request_instance.delete()
+
+        return Response({"message": "Request deleted successfully"}, status=status.HTTP_200_OK)
