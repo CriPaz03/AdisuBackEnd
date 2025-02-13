@@ -11,7 +11,6 @@ class MealViewSet(ModelViewSet):
     serializer_class = MealSerializer
     permission_classes = [IsAuthenticated]
 
-
 class DailyMealViewSet(ModelViewSet):
     queryset = DailyMeal.objects.all()
     serializer_class = DailyMealSerializer
@@ -30,17 +29,6 @@ class DailyMealViewSet(ModelViewSet):
         daily_meals = DailyMeal.objects.filter(id__in=ids, available=False)
         serialized_daily_meals = self.serializer_class(daily_meals, many=True)
         return Response(serialized_daily_meals.data)
-
-
-class BookingViewSet(ModelViewSet):
-    queryset = Booking.objects.all()
-    serializer_class = BookingSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
-
-    @action(detail=True, methods=['GET'])
-    def get_created(self, request, pk=None):
-        return Response({'booking': Booking.objects.filter(status=Booking.StatusBooking.created)})
 
 class CanteenViewSet(ModelViewSet):
     queryset = Canteen.objects.all()

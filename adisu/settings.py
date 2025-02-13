@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_tables2',
+    'django_filters',
     'mensa',
     'borsa',
     'gestionale',
@@ -97,6 +98,8 @@ DJANGO_TABLES2_TABLE_ATTRS = {
         'class': 'text-dark fs-4',
     },
 }
+
+DJANGO_TABLES2_TEMPLATE = "tables/tables.html"
 
 TEMPLATES = [
     {

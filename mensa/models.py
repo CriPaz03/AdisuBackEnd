@@ -78,7 +78,7 @@ class Rating(models.Model):
 class Booking(models.Model):
     class StatusBooking(models.TextChoices):
         created = "created", "Creato"
-        confirmed = "confirmed", ""
+        confirmed = "confirmed", "Confermato"
         in_progress = "in_progress", "In corso"
         complete = "finished", "Completo"
 
@@ -94,6 +94,9 @@ class Booking(models.Model):
         total = sum(item.price for item in self.items.all())
         self.total_price = total
         self.save()
+
+    def __str__(self):
+        return f"{self.user.username} - {self.status} - {self.price} - {self.total_price}"
 
 class BookingItem(models.Model):
     booking = models.ForeignKey(Booking, related_name='items', on_delete=models.CASCADE)
