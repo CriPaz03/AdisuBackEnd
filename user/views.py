@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer
@@ -7,7 +8,8 @@ from rest_framework.authtoken.models import Token
 from .serializers import MyTokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -40,3 +42,9 @@ class Logout(APIView):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_groups_users(request):
+    return JsonResponse({"groups": list(request.user.groups.all().values_list('name', flat=True))})
